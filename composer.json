@@ -3,7 +3,8 @@
   "version": "1.0.1",
   "type": "library",
   "require": {
-    "php": ">=7.2"
+    "php": ">=7.2",
+    "albreis/kurin": "dev-master"
   },
   "autoload": {
     "psr-4": {
