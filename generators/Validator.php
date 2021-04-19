@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
-namespace Albreis\DummyApp\Validators;
+namespace DummyNamespace\Validators;
 
 use Albreis\Kurin\Validator;
 use Exception;
 
-/** @package Albreis\DummyApp\Models */
+/** @package DummyNamespace\Models */
 class DummyClassValidator extends Validator {
 
     public function validate(?object $object = null): bool { 

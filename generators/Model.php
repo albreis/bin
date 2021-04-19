@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
-namespace Albreis\DummyApp\Models;
+namespace DummyNamespace\Models;
 
 use Albreis\Kurin\Model;
 
-/** @package Albreis\DummyApp\Models */
+/** @package DummyNamespace\Models */
 class DummyClass extends Model {
   public $created_by;
   public $created_at;

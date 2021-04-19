@@ -1,23 +1,46 @@
 <?php
 
-list($script, $appName, $className, $resources) = $argv;
-
-if(empty($appName)) {
-    throw new Exception('App name is required');
+echo "Namespace: App\n";
+$namespace = trim(fgets(STDIN));
+if(empty($namespace)) {
+    $namespace = 'App';
 }
 
+$namespace = str_replace('/', '\\', $namespace);
+$namespace = trim($namespace, '\\');
+
+echo "Class name:\n";
+$className = trim(fgets(STDIN));
 if(empty($className)) {
     throw new Exception('Class name is required');
 }
+
+echo "Resources separated by commas or spaces: (empty equals all)\n";
+$resources = trim(fgets(STDIN));
+
 $_resources = [];
 if(!empty($resources)) {
     $_resources = explode(',', trim($resources));
+    if(count($_resources) == 1) {
+        $_resources = explode(' ', trim($resources[0]));
+    }
 }
 
-$baseDir = dirname(__FILE__) . '/../../../App/';
+$baseDir = dirname(__FILE__) . "/../../../" . str_replace('\\', '/', $namespace). "/";
+
+$templateDir = __DIR__;
+
+$templateOverrideDir = false;
+
+if(file_exists(dirname(__FILE__) . "/../../../generators")) {
+    $templateOverrideDir = dirname(__FILE__) . "/../../..";
+}
 
 if(empty($resources) || in_array('controller', $_resources)) {
-    $controller = file_get_contents(__DIR__ . "/generators/Controller.php");
+    $controller = file_get_contents($templateDir . "/generators/Controller.php");
+    if($templateOverrideDir && file_exists($templateOverrideDir . "/generators/Controller.php")) {
+        $controller = file_get_contents($templateOverrideDir . "/generators/Controller.php");
+    }
     if(!file_exists("{$baseDir}Controllers")) {
         mkdir("{$baseDir}Controllers", 0755, true);
     }
@@ -26,11 +49,21 @@ if(empty($resources) || in_array('controller', $_resources)) {
     if(empty($ControllerName)) {
         $ControllerName = "{$className}s";
     }
-    file_put_contents("{$baseDir}Controllers/{$ControllerName}Controller.php", str_replace(['DummyApp', 'DummyClass'], [$appName, $className], $controller));
+    $confirm = 'yes';
+    if(file_exists("{$baseDir}Controllers/{$ControllerName}Controller.php")) {
+        echo "O arquivo {$baseDir}Controllers/{$ControllerName}Controller.php já existe, deseja subtituí-lo? Não/No";
+        $confirm = strtolower(trim(fgets(STDIN)));
+    }
+    if(in_array($confirm, ['sim', 'yes', 's', 'y'])) {
+        file_put_contents("{$baseDir}Controllers/{$ControllerName}Controller.php", str_replace(['DummyNamespace', 'DummyClass'], [$namespace, $className], $controller));
+    }
 }
 
-if(empty($resources) || in_array('manager', $_resources)) {
-    $manager = file_get_contents(__DIR__ . "/generators/StorageManager.php");
+if(empty($resources) || in_array('storagemanager', $_resources)) {
+    $manager = file_get_contents($templateDir . "/generators/StorageManager.php");
+    if($templateOverrideDir && file_exists($templateOverrideDir . "/generators/StorageManager.php")) {
+        $manager = file_get_contents($templateOverrideDir . "/generators/StorageManager.php");
+    }
     if(!file_exists("{$baseDir}Managers")) {
         mkdir("{$baseDir}Managers", 0755, true);
     }
@@ -39,11 +72,21 @@ if(empty($resources) || in_array('manager', $_resources)) {
     if(empty($StorageManagerName)) {
         $StorageManagerName = "{$className}s";
     }
-    file_put_contents("{$baseDir}Managers/{$StorageManagerName}StorageManager.php", str_replace(['DummyApp', 'DummyClass'], [$appName, $className], $manager));
+    $confirm = 'yes';
+    if(file_exists("{$baseDir}Managers/{$StorageManagerName}StorageManager.php")) {
+        echo "O arquivo {$baseDir}Managers/{$StorageManagerName}StorageManager.php já existe, deseja subtituí-lo? Não/No";
+        $confirm = strtolower(trim(fgets(STDIN)));
+    }
+    if(in_array($confirm, ['sim', 'yes', 's', 'y'])) {
+        file_put_contents("{$baseDir}Managers/{$StorageManagerName}StorageManager.php", str_replace(['DummyNamespace', 'DummyClass'], [$namespace, $className], $manager));
+    }
 }
 
 if(empty($resources) || in_array('model', $_resources)) {
-    $model = file_get_contents(__DIR__ . "/generators/Model.php");
+    $model = file_get_contents($templateDir . "/generators/Model.php");
+    if($templateOverrideDir && file_exists($templateOverrideDir . "/generators/Model.php")) {
+        $model = file_get_contents($templateOverrideDir . "/generators/Model.php");
+    }
     if(!file_exists("{$baseDir}Models")) {
         mkdir("{$baseDir}Models", 0755, true);
     }
@@ -52,11 +95,21 @@ if(empty($resources) || in_array('model', $_resources)) {
     if(empty($ModelName)) {
         $ModelName = "{$className}";
     }
-    file_put_contents("{$baseDir}Models/{$ModelName}.php", str_replace(['DummyApp', 'DummyClass'], [$appName, $className], $model));
+    $confirm = 'yes';
+    if(file_exists("{$baseDir}Models/{$ModelName}.php")) {
+        echo "O arquivo {$baseDir}Models/{$ModelName}.php já existe, deseja subtituí-lo? Não/No";
+        $confirm = strtolower(trim(fgets(STDIN)));
+    }
+    if(in_array($confirm, ['sim', 'yes', 's', 'y'])) {
+        file_put_contents("{$baseDir}Models/{$ModelName}.php", str_replace(['DummyNamespace', 'DummyClass'], [$namespace, $className], $model));
+    }
 }
 
 if(empty($resources) || in_array('producer', $_resources)) {
-    $producer = file_get_contents(__DIR__ . "/generators/Producer.php");
+    $producer = file_get_contents($templateDir . "/generators/Producer.php");
+    if($templateOverrideDir && file_exists($templateOverrideDir . "/generators/Producer.php")) {
+        $producer = file_get_contents($templateOverrideDir . "/generators/Producer.php");
+    }
     if(!file_exists("{$baseDir}Producers")) {
         mkdir("{$baseDir}Producers", 0755, true);
     }
@@ -65,11 +118,21 @@ if(empty($resources) || in_array('producer', $_resources)) {
     if(empty($ProducerName)) {
         $ProducerName = "{$className}s";
     }
-    file_put_contents("{$baseDir}Producers/{$ProducerName}Producer.php", str_replace(['DummyApp', 'DummyClass'], [$appName, $className], $producer));
+    $confirm = 'yes';
+    if(file_exists("{$baseDir}Producers/{$ProducerName}Producer.php")) {
+        echo "O arquivo {$baseDir}Producers/{$ProducerName}Producer.php já existe, deseja subtituí-lo? Não/No";
+        $confirm = strtolower(trim(fgets(STDIN)));
+    }
+    if(in_array($confirm, ['sim', 'yes', 's', 'y'])) {
+        file_put_contents("{$baseDir}Producers/{$ProducerName}Producer.php", str_replace(['DummyNamespace', 'DummyClass'], [$namespace, $className], $producer));
+    }
 }
 
 if(empty($resources) || in_array('repository', $_resources)) {
-    $repository = file_get_contents(__DIR__ . "/generators/Repository.php");
+    $repository = file_get_contents($templateDir . "/generators/Repository.php");
+    if($templateOverrideDir && file_exists($templateOverrideDir . "/generators/Repository.php")) {
+        $repository = file_get_contents($templateOverrideDir . "/generators/Repository.php");
+    }
     if(!file_exists("{$baseDir}Repositories")) {
         mkdir("{$baseDir}Repositories", 0755, true);
     }
@@ -78,11 +141,21 @@ if(empty($resources) || in_array('repository', $_resources)) {
     if(empty($RepositoryName)) {
         $RepositoryName = "{$className}s";
     }
-    file_put_contents("{$baseDir}Repositories/{$RepositoryName}Repository.php", str_replace(['DummyApp', 'DummyClass'], [$appName, $className], $repository));
+    $confirm = 'yes';
+    if(file_exists("{$baseDir}Repositories/{$RepositoryName}Repository.php")) {
+        echo "O arquivo {$baseDir}Repositories/{$RepositoryName}Repository.php já existe, deseja subtituí-lo? Não/No";
+        $confirm = strtolower(trim(fgets(STDIN)));
+    }
+    if(in_array($confirm, ['sim', 'yes', 's', 'y'])) {
+        file_put_contents("{$baseDir}Repositories/{$RepositoryName}Repository.php", str_replace(['DummyNamespace', 'DummyClass'], [$namespace, $className], $repository));
+    }
 }
 
 if(empty($resources) || in_array('validator', $_resources)) {
-    $validator = file_get_contents(__DIR__ . "/generators/Validator.php");
+    $validator = file_get_contents($templateDir . "/generators/Validator.php");
+    if($templateOverrideDir && file_exists($templateOverrideDir . "/generators/Validator.php")) {
+        $validator = file_get_contents($templateOverrideDir . "/generators/Validator.php");
+    }
     if(!file_exists("{$baseDir}Validators")) {
         mkdir("{$baseDir}Validators", 0755, true);
     }
@@ -91,5 +164,12 @@ if(empty($resources) || in_array('validator', $_resources)) {
     if(empty($ValidatorName)) {
         $ValidatorName = "{$className}";
     }
-    file_put_contents("{$baseDir}Validators/{$ValidatorName}Validator.php", str_replace(['DummyApp', 'DummyClass'], [$appName, $className], $validator));
+    $confirm = 'yes';
+    if(file_exists("{$baseDir}Validators/{$ValidatorName}Validator.php")) {
+        echo "O arquivo {$baseDir}Validators/{$ValidatorName}Validator.php já existe, deseja subtituí-lo? Não/No";
+        $confirm = strtolower(trim(fgets(STDIN)));
+    }
+    if(in_array($confirm, ['sim', 'yes', 's', 'y'])) {
+        file_put_contents("{$baseDir}Validators/{$ValidatorName}Validator.php", str_replace(['DummyNamespace', 'DummyClass'], [$namespace, $className], $validator));
+    }
 }

@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
-namespace Albreis\DummyApp\Producers;
+namespace DummyNamespace\Producers;
 
 use Albreis\Kurin\Producer;
 
-/** @package Albreis\DummyApp\Models */
+/** @package DummyNamespace\Models */
 class DummyClasssProducer extends Producer {
-  public $model = "Albreis\DummyApp\Models\DummyClass";
+  public $model = "DummyNamespace\Models\DummyClass";
 }

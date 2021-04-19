@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-namespace Albreis\DummyApp\Controllers;
+namespace DummyNamespace\Controllers;
 
 use Albreis\Kurin\Database\MySQL;
 use Albreis\Kurin\Interfaces\IProducer;
@@ -17,13 +17,13 @@ use PDOException;
 use ReflectionClass;
 use ReflectionProperty;
 
-/** @package Albreis\DummyApp\Controllers */
+/** @package DummyNamespace\Controllers */
 class DummyClasssController {
 
-  protected $repository_class = '\Albreis\DummyApp\Repositories\DummyClasssRepository';
-  protected $producer_class = '\Albreis\DummyApp\Producers\DummyClasssProducer';
-  protected $storage_manager_class = '\Albreis\DummyApp\Managers\DummyClasssStorageManager';
-  protected $validator_class = '\Albreis\DummyApp\Validators\DummyClassValidator';
+  protected $repository_class = '\DummyNamespace\Repositories\DummyClasssRepository';
+  protected $producer_class = '\DummyNamespace\Producers\DummyClasssProducer';
+  protected $storage_manager_class = '\DummyNamespace\Managers\DummyClasssStorageManager';
+  protected $validator_class = '\DummyNamespace\Validators\DummyClassValidator';
 
   public function __construct(
     ?IRepository $repository = null, 

@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-namespace Albreis\DummyApp\Repositories;
+namespace DummyNamespace\Repositories;
 
 use Albreis\Kurin\Repositories\AbstractRepository;
 
@@ -9,7 +9,7 @@ class DummyClasssRepository extends AbstractRepository {
   /**
    * Model usado pelo repositório
    */
-  protected ?string $model = 'Albreis\DummyApp\Models\DummyClass';
+  protected ?string $model = 'DummyNamespace\Models\DummyClass';
   protected string $table = 'dummy_table';
 
   /**

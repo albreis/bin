@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
-namespace Albreis\DummyApp\Managers;
+namespace DummyNamespace\Managers;
 
 use Albreis\Kurin\Managers\StorageManager;
-use Albreis\DummyApp\Models\DummyClass;
+use DummyNamespace\Models\DummyClass;
 use DateTime;
 use ReflectionClass;
 use ReflectionProperty;
