@@ -1,6 +1,6 @@
 <?php
 
-echo "Namespace: App\n";
+echo "Namespace: [App]\n";
 $namespace = trim(fgets(STDIN));
 if(empty($namespace)) {
     $namespace = 'App';
@@ -44,7 +44,7 @@ if(empty($resources) || in_array('controller', $_resources)) {
     if(!file_exists("{$baseDir}Controllers")) {
         mkdir("{$baseDir}Controllers", 0755, true);
     }
-    echo "Controller name:\n";
+    echo "Controller name: [{$className}s]\n";
     $ControllerName = trim(fgets(STDIN));
     if(empty($ControllerName)) {
         $ControllerName = "{$className}s";
@@ -67,7 +67,7 @@ if(empty($resources) || in_array('storagemanager', $_resources)) {
     if(!file_exists("{$baseDir}Managers")) {
         mkdir("{$baseDir}Managers", 0755, true);
     }
-    echo "StorageManager name:\n";
+    echo "StorageManager name: [{$className}s]\n";
     $StorageManagerName = trim(fgets(STDIN));
     if(empty($StorageManagerName)) {
         $StorageManagerName = "{$className}s";
@@ -90,7 +90,7 @@ if(empty($resources) || in_array('model', $_resources)) {
     if(!file_exists("{$baseDir}Models")) {
         mkdir("{$baseDir}Models", 0755, true);
     }
-    echo "Model name:\n";
+    echo "Model name: [{$className}]\n";
     $ModelName = trim(fgets(STDIN));
     if(empty($ModelName)) {
         $ModelName = "{$className}";
@@ -113,7 +113,7 @@ if(empty($resources) || in_array('producer', $_resources)) {
     if(!file_exists("{$baseDir}Producers")) {
         mkdir("{$baseDir}Producers", 0755, true);
     }
-    echo "Producer name:\n";
+    echo "Producer name: [{$className}s]\n";
     $ProducerName = trim(fgets(STDIN));
     if(empty($ProducerName)) {
         $ProducerName = "{$className}s";
@@ -136,7 +136,7 @@ if(empty($resources) || in_array('repository', $_resources)) {
     if(!file_exists("{$baseDir}Repositories")) {
         mkdir("{$baseDir}Repositories", 0755, true);
     }
-    echo "Repository name:\n";
+    echo "Repository name: [{$className}s]\n";
     $RepositoryName = trim(fgets(STDIN));
     if(empty($RepositoryName)) {
         $RepositoryName = "{$className}s";
@@ -159,7 +159,7 @@ if(empty($resources) || in_array('validator', $_resources)) {
     if(!file_exists("{$baseDir}Validators")) {
         mkdir("{$baseDir}Validators", 0755, true);
     }
-    echo "Validator name:\n";
+    echo "Validator name: [{$className}]\n";
     $ValidatorName = trim(fgets(STDIN));
     if(empty($ValidatorName)) {
         $ValidatorName = "{$className}";
